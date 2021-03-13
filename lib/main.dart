@@ -1,5 +1,7 @@
-import 'package:crypto_app/chart.dart';
+import 'package:crypto_app/models/data.dart';
+import 'package:crypto_app/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,21 +10,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Scaffold(
-            body: Center(
-              child: Column(
-                children: [
-                  Row(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[Chart()]),
-                ],
-              ),
-            ),
-          ),
-        ),
+    return ChangeNotifierProvider(
+      create: (context) => Data(),
+      child: MaterialApp(
+        home: Home(),
       ),
     );
   }
