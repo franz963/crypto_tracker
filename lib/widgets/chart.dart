@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,13 @@ class _ChartState extends State<Chart> {
     return Expanded(
       child: Container(
         height: 200,
+        margin: EdgeInsets.only(left: 15, right: 15),
         child: FutureBuilder<List<dynamic>>(
           future: coinData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return LineChart(
                 sampleData1(snapshot.data),
-                // swapAnimationDuration: const Duration(milliseconds: 250),
               );
             }
             return CircularProgressIndicator();
@@ -39,25 +40,6 @@ class _ChartState extends State<Chart> {
       titlesData: FlTitlesData(
         bottomTitles: SideTitles(
           showTitles: false,
-          // reservedSize: 22,
-          // getTextStyles: (value) => const TextStyle(
-          //   color: Color(0xff72719b),
-          //   fontWeight: FontWeight.bold,
-          //   fontSize: 16,
-          // ),
-          // margin: 10,
-          // getTitles: (value) {
-          //   print(value);
-          //   switch (value.toInt()) {
-          //     case 2:
-          //       return 'SEPT';
-          //     case 7:
-          //       return 'OCT';
-          //     case 12:
-          //       return 'DEC';
-          //   }
-          //   return '';
-          // },
         ),
         leftTitles: SideTitles(
           showTitles: false,
@@ -99,7 +81,6 @@ class _ChartState extends State<Chart> {
         'api.coingecko.com',
         'api/v3/coins/bitcoin/market_chart',
         {'vs_currency': 'usd', 'days': '2'});
-    print(endpoint);
     final response = await http.get(endpoint);
 
     if (response.statusCode == 200) {
@@ -130,15 +111,19 @@ class _ChartState extends State<Chart> {
     return max;
   }
 
+  double roundDouble(double value, int places) {
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
   List<FlSpot> getSpotList(List<dynamic> prices) {
     List<FlSpot> returnValue = [];
     for (final price in prices) {
-      var x = price[0];
-      var y = price[1];
-      final graphValue = FlSpot(x.toDouble(), y.toDouble());
+      var x = roundDouble(price[0].toDouble(), 2);
+      var y = roundDouble(price[1].toDouble(), 2);
+      final graphValue = FlSpot(x, y);
       returnValue.add(graphValue);
     }
-    print(returnValue);
     return returnValue;
   }
 }
