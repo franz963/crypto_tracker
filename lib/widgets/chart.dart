@@ -60,7 +60,7 @@ class _ChartState extends State<Chart> {
       ),
       minX: findMin(data, 0) - 20000000,
       maxX: findMax(data, 0) + 20000000,
-      maxY: findMax(data, 1) + 500,
+      maxY: findMax(data, 1),
       minY: findMin(data, 1),
       lineBarsData: linesBarData1(data),
     );
