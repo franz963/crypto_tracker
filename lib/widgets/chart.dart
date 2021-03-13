@@ -1,35 +1,45 @@
 import 'dart:convert' as convert;
 import 'dart:math';
 
+import 'package:crypto_app/models/data.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Chart extends StatefulWidget {
+  // final String coinName;
+  // const Chart(this.coinName);
+
   @override
   _ChartState createState() => _ChartState();
 }
 
 class _ChartState extends State<Chart> {
+  // final String coinName;
+  // _ChartState(this.coinName);
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: 200,
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: FutureBuilder<List<dynamic>>(
-          future: coinData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return LineChart(
-                sampleData1(snapshot.data),
-              );
-            }
-            return CircularProgressIndicator();
-          },
+    return Consumer<Data>(builder: (context, coins, child) {
+      return Expanded(
+        child: Container(
+          height: 200,
+          margin: EdgeInsets.only(left: 15, right: 15),
+          child: FutureBuilder<List<dynamic>>(
+            future: coinData(coins.currentCoin),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return LineChart(
+                  sampleData1(snapshot.data),
+                );
+              }
+              return CircularProgressIndicator();
+            },
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   LineChartData sampleData1(List<dynamic> data) {
@@ -76,10 +86,10 @@ class _ChartState extends State<Chart> {
     return [lineChartBarData1];
   }
 
-  Future<List<dynamic>> coinData() async {
-    final endpoint = Uri.https(
-        'api.coingecko.com',
-        'api/v3/coins/bitcoin/market_chart',
+  Future<List<dynamic>> coinData(String coin) async {
+    final String unencodedPath =
+        'api/v3/coins/' + coin.toLowerCase() + '/market_chart';
+    final endpoint = Uri.https('api.coingecko.com', unencodedPath,
         {'vs_currency': 'usd', 'days': '2'});
     final response = await http.get(endpoint);
 

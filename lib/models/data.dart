@@ -10,13 +10,25 @@ class Data extends ChangeNotifier {
     Coin(coinName: 'Litecoin', coinShortName: 'LTC')
   ];
 
+  String _currentCoin = 'Bitcoin';
+
   UnmodifiableListView<Coin> get coins {
     return UnmodifiableListView(_coins);
+  }
+
+  String get currentCoin {
+    return _currentCoin;
   }
 
   void addCoin(String coinName, String coinShortName) {
     final coin = Coin(coinName: coinName, coinShortName: coinShortName);
     _coins.add(coin);
+    updateCurrentCoin(coinName);
+    notifyListeners();
+  }
+
+  void updateCurrentCoin(String coinName) {
+    _currentCoin = coinName;
     notifyListeners();
   }
 }

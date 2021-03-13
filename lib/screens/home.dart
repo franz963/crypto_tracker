@@ -1,5 +1,6 @@
 import 'package:crypto_app/widgets/chart.dart';
 import 'package:crypto_app/widgets/coin_selector.dart';
+import 'package:crypto_app/widgets/title.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -11,6 +12,7 @@ class Home extends StatelessWidget {
           body: Center(
             child: Column(
               children: [
+                AppTitle(),
                 Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[Chart()]),

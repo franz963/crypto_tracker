@@ -12,7 +12,7 @@ class CoinSelector extends StatelessWidget {
         margin: EdgeInsets.only(top: 10),
         constraints: BoxConstraints.expand(height: 200),
         child: ListView(
-          padding: EdgeInsets.only(left: 40),
+          padding: EdgeInsets.only(left: 30),
           scrollDirection: Axis.horizontal,
           children: getCoinList(coinList.coins),
         ),
