@@ -16,7 +16,6 @@ class CoinTile extends StatelessWidget {
             .updateCurrentCoin(coin.coinName);
       },
       child: Container(
-        padding: EdgeInsets.all(10),
         margin: EdgeInsets.only(right: 20, bottom: 30, top: 30),
         height: 150,
         width: 200,

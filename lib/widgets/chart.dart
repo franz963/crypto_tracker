@@ -27,11 +27,14 @@ class _ChartState extends State<Chart> {
           height: 200,
           margin: EdgeInsets.only(left: 15, right: 15),
           child: FutureBuilder<List<dynamic>>(
-            future: coinData(coins.currentCoin),
+            future: coinData(coins.currentCoin, coins.numberOfDays),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return LineChart(
-                  sampleData1(snapshot.data),
+                return Container(
+                  margin: EdgeInsets.only(left: 30, right: 30),
+                  child: LineChart(
+                    sampleData1(snapshot.data),
+                  ),
                 );
               }
               return CircularProgressIndicator();
@@ -58,8 +61,8 @@ class _ChartState extends State<Chart> {
       borderData: FlBorderData(
         show: false,
       ),
-      minX: findMin(data, 0) - 20000000,
-      maxX: findMax(data, 0) + 20000000,
+      minX: findMin(data, 0),
+      maxX: findMax(data, 0),
       maxY: findMax(data, 1),
       minY: findMin(data, 1),
       lineBarsData: linesBarData1(data),
@@ -86,11 +89,11 @@ class _ChartState extends State<Chart> {
     return [lineChartBarData1];
   }
 
-  Future<List<dynamic>> coinData(String coin) async {
+  Future<List<dynamic>> coinData(String coin, String days) async {
     final String unencodedPath =
         'api/v3/coins/' + coin.toLowerCase() + '/market_chart';
     final endpoint = Uri.https('api.coingecko.com', unencodedPath,
-        {'vs_currency': 'usd', 'days': '2'});
+        {'vs_currency': 'usd', 'days': days});
     final response = await http.get(endpoint);
 
     if (response.statusCode == 200) {

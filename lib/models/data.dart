@@ -11,6 +11,7 @@ class Data extends ChangeNotifier {
   ];
 
   String _currentCoin = 'Bitcoin';
+  String _numberOfDays = '1';
 
   UnmodifiableListView<Coin> get coins {
     return UnmodifiableListView(_coins);
@@ -18,6 +19,10 @@ class Data extends ChangeNotifier {
 
   String get currentCoin {
     return _currentCoin;
+  }
+
+  String get numberOfDays {
+    return _numberOfDays;
   }
 
   void addCoin(String coinName, String coinShortName) {
@@ -29,6 +34,11 @@ class Data extends ChangeNotifier {
 
   void updateCurrentCoin(String coinName) {
     _currentCoin = coinName;
+    notifyListeners();
+  }
+
+  void updatenNumberOfDays(String days) {
+    _numberOfDays = days;
     notifyListeners();
   }
 }

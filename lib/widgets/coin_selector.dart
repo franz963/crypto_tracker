@@ -9,7 +9,6 @@ class CoinSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Data>(builder: (context, coinList, child) {
       return Container(
-        margin: EdgeInsets.only(top: 10),
         constraints: BoxConstraints.expand(height: 200),
         child: ListView(
           padding: EdgeInsets.only(left: 30),
